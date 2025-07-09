@@ -243,11 +243,12 @@ class BookApiService {
       throw error;
     }
   }
-}
 
-// Create and export a singleton instance
-const bookApiService = new BookApiService();
-  // Get book by ID from Google Books API
+  /**
+   * Get book by ID from Google Books API
+   * @param {string} bookId - Google Books ID
+   * @returns {Promise<Object>} Book details
+   */
   async getBookById(bookId) {
     try {
       const response = await fetch(`${this.baseURL}/${bookId}`);
@@ -263,6 +264,9 @@ const bookApiService = new BookApiService();
       throw new Error('Failed to fetch book details');
     }
   }
-};
+}
+
+// Create and export a singleton instance
+const bookApiService = new BookApiService();
 
 export default bookApiService;
