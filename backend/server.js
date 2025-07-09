@@ -32,7 +32,8 @@ app.get('/', (req, res) => {
 });
 
 // API Routes
-app.use('/api/auth', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/recommendations', require('./routes/recommendations'));
 
 // Start server
 const startServer = async () => {

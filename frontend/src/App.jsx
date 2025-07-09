@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Home from './pages/Home';
 import MyBooks from './pages/MyBooks';
+import MyRecommendations from './pages/MyRecommendations';
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/my-books" element={<MyBooks />} />
+              <Route path="/my-recommendations" element={<MyRecommendations />} />
               <Route path="/recommendations" element={
                 <div className="page-placeholder">
                   <h2>Book Recommendations</h2>

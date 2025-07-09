@@ -1,20 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
+import BookRecommendationForm from '../components/BookRecommendationForm';
+import BookSearch from '../components/BookSearch';
+import recommendationApiService from '../services/recommendationApi';
+import './MyBooks.css';
 
 const MyBooks = () => {
-  const { user, addReadBook } = useAuth();
-  const [readBooks, setReadBooks] = useState([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [newBook, setNewBook] = useState({
-    title: '',
-    author: '',
-    rating: 5
+  const { user } = useAuth();
+  const [recommendations, setRecommendations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentView, setCurrentView] = useState('list'); // 'list', 'add', 'edit', 'search'
+  const [editingRecommendation, setEditingRecommendation] = useState(null);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    hasNext: false,
+    hasPrev: false
   });
 
+  // Load user's recommendations
+  const loadRecommendations = async (page = 1) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await recommendationApiService.getMyRecommendations({
+        page,
+        limit: 12,
+        sortBy: 'createdAt',
+        sortOrder: 'desc'
+      });
+      setRecommendations(data.recommendations);
+      setPagination(data.pagination);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    if (user?.readBooks) {
-      setReadBooks(user.readBooks);
+    if (user) {
+      loadRecommendations();
     }
   }, [user]);
 
@@ -104,147 +133,9 @@ const MyBooks = () => {
         )}
       </div>
 
-      <style jsx>{`
-        .my-books-page {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem;
-        }
 
-        .page-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 2rem;
-        }
 
-        .page-header h1 {
-          color: #1f2937;
-          font-size: 2rem;
-        }
 
-        .add-book-btn {
-          background-color: #3b82f6;
-          color: white;
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-        }
-
-        .add-book-btn:hover {
-          background-color: #2563eb;
-        }
-
-        .add-book-form {
-          background: white;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
-          padding: 1.5rem;
-          margin-bottom: 2rem;
-        }
-
-        .add-book-form h3 {
-          margin-bottom: 1rem;
-          color: #1f2937;
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        .form-group label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 600;
-          color: #374151;
-        }
-
-        .form-group input,
-        .form-group select {
-          width: 100%;
-          padding: 0.5rem;
-          border: 1px solid #d1d5db;
-          border-radius: 6px;
-          font-size: 1rem;
-        }
-
-        .form-buttons {
-          display: flex;
-          gap: 1rem;
-        }
-
-        .form-buttons button {
-          padding: 0.5rem 1rem;
-          border: none;
-          border-radius: 6px;
-          cursor: pointer;
-          font-weight: 600;
-        }
-
-        .form-buttons button[type="submit"] {
-          background-color: #10b981;
-          color: white;
-        }
-
-        .form-buttons button[type="button"] {
-          background-color: #6b7280;
-          color: white;
-        }
-
-        .books-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 1.5rem;
-        }
-
-        .book-card {
-          background: white;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
-          padding: 1.5rem;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .book-card h3 {
-          color: #1f2937;
-          margin-bottom: 0.5rem;
-        }
-
-        .book-card p {
-          color: #6b7280;
-          margin-bottom: 0.5rem;
-        }
-
-        .rating {
-          color: #fbbf24;
-          font-size: 1.2rem;
-          margin: 0.5rem 0;
-        }
-
-        .date-read {
-          font-size: 0.875rem;
-          color: #9ca3af;
-        }
-
-        .empty-state {
-          text-align: center;
-          padding: 3rem;
-          color: #6b7280;
-        }
-
-        .empty-state button {
-          background-color: #3b82f6;
-          color: white;
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-          margin-top: 1rem;
-        }
-      `}</style>
     </div>
   );
 

@@ -46,6 +46,12 @@ const Header = () => {
               My Books
             </Link>
             <Link
+              to="/my-recommendations"
+              className={`nav-link ${location.pathname === '/my-recommendations' ? 'active' : ''}`}
+            >
+              My Recommendations
+            </Link>
+            <Link
               to="/recommendations"
               className={`nav-link ${location.pathname === '/recommendations' ? 'active' : ''}`}
             >
