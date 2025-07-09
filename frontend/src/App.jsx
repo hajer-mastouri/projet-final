@@ -13,9 +13,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="app">
           <Header />
-          <main className="main-content">
+          <main className="app-main">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/my-books" element={<MyBooks />} />
