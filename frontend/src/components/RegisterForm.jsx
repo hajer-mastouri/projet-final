@@ -98,6 +98,14 @@ const RegisterForm = ({ onSwitchToLogin, onClose }) => {
   return (
     <div className="auth-form-container">
       <div className="auth-form register-form">
+        <button
+          className="close-button"
+          onClick={onClose}
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
         <div className="auth-header">
           <h2>Join BookRecommend</h2>
           <p>Create your account to discover amazing books</p>

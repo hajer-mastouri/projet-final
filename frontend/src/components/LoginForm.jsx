@@ -64,6 +64,14 @@ const LoginForm = ({ onSwitchToRegister, onClose }) => {
   return (
     <div className="auth-form-container">
       <div className="auth-form">
+        <button
+          className="close-button"
+          onClick={onClose}
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
         <div className="auth-header">
           <h2>Welcome Back!</h2>
           <p>Sign in to get personalized book recommendations</p>
