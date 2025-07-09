@@ -31,9 +31,14 @@ app.get('/', (req, res) => {
   res.json({ message: 'MERN Stack Backend API' });
 });
 
+// Test route
+app.get('/test', (req, res) => {
+  res.json({ message: 'Test route working', cors: 'enabled' });
+});
+
 // API Routes
 app.use('/api/auth', require('./routes/users'));
-app.use('/api/recommendations', require('./routes/recommendations'));
+// app.use('/api/recommendations', require('./routes/recommendations')); // Temporarily disabled
 
 // Start server
 const startServer = async () => {
