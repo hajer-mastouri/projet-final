@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BookRecommendation = require('../models/BookRecommendation');
-const auth = require('../middleware/auth');
+const { authenticateToken: auth } = require('../middleware/auth');
 const { body, validationResult, query } = require('express-validator');
 
 // Validation middleware
@@ -69,6 +69,27 @@ const validateRecommendation = [
     .isLength({ max: 1000 })
     .withMessage('Personal notes cannot exceed 1000 characters')
 ];
+
+// GET /api/recommendations/genres/stats - Get genre statistics
+router.get('/genres/stats', async (req, res) => {
+  try {
+    const stats = await BookRecommendation.aggregate([
+      { $match: { status: 'published', isPublic: true } },
+      { $group: {
+          _id: '$genre',
+          count: { $sum: 1 },
+          averageRating: { $avg: '$rating' }
+        }
+      },
+      { $sort: { count: -1 } }
+    ]);
+
+    res.json(stats);
+  } catch (error) {
+    console.error('Get genre stats error:', error);
+    res.status(500).json({ message: 'Server error while fetching genre statistics' });
+  }
+});
 
 // GET /api/recommendations - Get all public recommendations with filtering and pagination
 router.get('/', async (req, res) => {
@@ -423,27 +444,6 @@ router.post('/:id/comments', auth, [
       return res.status(400).json({ message: 'Invalid recommendation ID' });
     }
     res.status(500).json({ message: 'Server error while adding comment' });
-  }
-});
-
-// GET /api/recommendations/genres/stats - Get genre statistics
-router.get('/genres/stats', async (req, res) => {
-  try {
-    const stats = await BookRecommendation.aggregate([
-      { $match: { status: 'published', isPublic: true } },
-      { $group: {
-          _id: '$genre',
-          count: { $sum: 1 },
-          averageRating: { $avg: '$rating' }
-        }
-      },
-      { $sort: { count: -1 } }
-    ]);
-
-    res.json(stats);
-  } catch (error) {
-    console.error('Get genre stats error:', error);
-    res.status(500).json({ message: 'Server error while fetching genre statistics' });
   }
 });
 
