@@ -59,6 +59,72 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
+// Profile endpoint
+app.get('/api/auth/profile', (req, res) => {
+  console.log('Profile request - Headers:', req.headers.authorization);
+  res.json({
+    success: true,
+    user: {
+      id: '123',
+      name: 'Test User',
+      email: 'test@example.com',
+      favoriteGenres: ['Fiction', 'Sci-Fi'],
+      readBooks: []
+    }
+  });
+});
+
+// Recommendations endpoints
+app.get('/api/recommendations/my', (req, res) => {
+  console.log('My recommendations request - Query:', req.query);
+  res.json({
+    success: true,
+    recommendations: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
+app.post('/api/recommendations', (req, res) => {
+  console.log('Create recommendation request:', req.body);
+  res.json({
+    success: true,
+    message: 'Recommendation created successfully (test mode)',
+    recommendation: {
+      _id: 'test-rec-123',
+      ...req.body,
+      userId: '123',
+      createdAt: new Date().toISOString()
+    }
+  });
+});
+
+app.put('/api/recommendations/:id', (req, res) => {
+  console.log('Update recommendation request:', req.params.id, req.body);
+  res.json({
+    success: true,
+    message: 'Recommendation updated successfully (test mode)',
+    recommendation: {
+      _id: req.params.id,
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    }
+  });
+});
+
+app.delete('/api/recommendations/:id', (req, res) => {
+  console.log('Delete recommendation request:', req.params.id);
+  res.json({
+    success: true,
+    message: 'Recommendation deleted successfully (test mode)'
+  });
+});
+
 app.post('/api/auth/test', (req, res) => {
   res.json({
     message: 'Auth endpoint working',
