@@ -26,9 +26,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'MERN Stack Backend API' });
 });
 
-// API Routes will be added here
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/auth', require('./routes/auth'));
+// API Routes
+app.use('/api/auth', require('./routes/users'));
 
 // Start server
 const startServer = async () => {
