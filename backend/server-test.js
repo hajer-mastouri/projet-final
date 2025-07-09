@@ -125,6 +125,106 @@ app.delete('/api/recommendations/:id', (req, res) => {
   });
 });
 
+// Book endpoints for testing
+app.get('/api/books/:googleBooksId', (req, res) => {
+  console.log('Get book details request:', req.params.googleBooksId);
+  res.json({
+    success: true,
+    book: {
+      _id: 'test-book-id',
+      googleBooksId: req.params.googleBooksId,
+      title: 'Test Book Title',
+      authors: ['Test Author'],
+      description: 'This is a test book description for development purposes.',
+      imageLinks: {
+        thumbnail: 'https://via.placeholder.com/128x192?text=Book+Cover'
+      },
+      averageRating: 4.2,
+      totalRatings: 15,
+      totalReviews: 8,
+      viewCount: 42,
+      reviews: []
+    }
+  });
+});
+
+app.get('/api/books/:googleBooksId/rating', (req, res) => {
+  console.log('Get user rating request:', req.params.googleBooksId);
+  res.json({
+    success: true,
+    rating: 0 // No rating by default
+  });
+});
+
+app.post('/api/books/:googleBooksId/rating', (req, res) => {
+  console.log('Rate book request:', req.params.googleBooksId, req.body);
+  res.json({
+    success: true,
+    message: 'Rating saved successfully (test mode)',
+    rating: req.body.rating,
+    averageRating: 4.3,
+    totalRatings: 16
+  });
+});
+
+app.get('/api/books/:googleBooksId/reading-list', (req, res) => {
+  console.log('Check reading list request:', req.params.googleBooksId);
+  res.json({
+    success: true,
+    inList: false,
+    status: null
+  });
+});
+
+app.post('/api/books/:googleBooksId/reading-list', (req, res) => {
+  console.log('Add to reading list request:', req.params.googleBooksId, req.body);
+  res.json({
+    success: true,
+    message: 'Book added to reading list (test mode)',
+    entry: {
+      _id: 'test-entry-id',
+      status: 'want-to-read'
+    }
+  });
+});
+
+app.delete('/api/books/:googleBooksId/reading-list', (req, res) => {
+  console.log('Remove from reading list request:', req.params.googleBooksId);
+  res.json({
+    success: true,
+    message: 'Book removed from reading list (test mode)'
+  });
+});
+
+app.get('/api/books/:googleBooksId/reviews', (req, res) => {
+  console.log('Get reviews request:', req.params.googleBooksId, req.query);
+  res.json({
+    success: true,
+    reviews: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
+app.post('/api/books/:googleBooksId/reviews', (req, res) => {
+  console.log('Add review request:', req.params.googleBooksId, req.body);
+  res.json({
+    success: true,
+    message: 'Review added successfully (test mode)',
+    review: {
+      _id: 'test-review-id',
+      text: req.body.text,
+      userName: 'Test User',
+      createdAt: new Date().toISOString()
+    }
+  });
+});
+
 app.post('/api/auth/test', (req, res) => {
   res.json({
     message: 'Auth endpoint working',

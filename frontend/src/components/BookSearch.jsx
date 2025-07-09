@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import bookApiService from '../services/bookApi';
 import './BookSearch.css';
 
 const BookSearch = ({ onBookSelect, showSelectButton = false }) => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [searchType, setSearchType] = useState('general');
   const [results, setResults] = useState([]);
@@ -118,6 +120,10 @@ const BookSearch = ({ onBookSelect, showSelectButton = false }) => {
     }
   };
 
+  const handleViewDetails = (book) => {
+    navigate(`/book/${book.id}`);
+  };
+
   const clearSearch = () => {
     setQuery('');
     setResults([]);
@@ -175,19 +181,26 @@ const BookSearch = ({ onBookSelect, showSelectButton = false }) => {
         </p>
         
         <div className="book-actions">
+          <button
+            className="view-details-btn"
+            onClick={() => handleViewDetails(book)}
+          >
+            View Details
+          </button>
+
           {showSelectButton && (
-            <button 
+            <button
               className="select-book-btn"
               onClick={() => handleBookSelect(book)}
             >
               Select Book
             </button>
           )}
-          
+
           {book.previewLink && (
-            <a 
-              href={book.previewLink} 
-              target="_blank" 
+            <a
+              href={book.previewLink}
+              target="_blank"
               rel="noopener noreferrer"
               className="preview-link"
             >

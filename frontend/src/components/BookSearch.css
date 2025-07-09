@@ -253,6 +253,22 @@
   margin-top: auto;
 }
 
+.view-details-btn {
+  background: #6f42c1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.view-details-btn:hover {
+  background: #5a32a3;
+}
+
 .select-book-btn {
   background: #10b981;
   color: white;

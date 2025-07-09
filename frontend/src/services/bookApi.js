@@ -247,4 +247,22 @@ class BookApiService {
 
 // Create and export a singleton instance
 const bookApiService = new BookApiService();
+  // Get book by ID from Google Books API
+  async getBookById(bookId) {
+    try {
+      const response = await fetch(`${this.baseURL}/${bookId}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Get book by ID error:', error);
+      throw new Error('Failed to fetch book details');
+    }
+  }
+};
+
 export default bookApiService;
