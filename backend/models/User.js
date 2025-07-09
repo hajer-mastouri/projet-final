@@ -48,6 +48,82 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: 'English'
     }
+  },
+  // Social features
+  bio: {
+    type: String,
+    trim: true,
+    maxlength: [500, 'Bio cannot exceed 500 characters']
+  },
+  profilePicture: {
+    type: String,
+    trim: true
+  },
+  location: {
+    type: String,
+    trim: true,
+    maxlength: [100, 'Location cannot exceed 100 characters']
+  },
+  website: {
+    type: String,
+    trim: true,
+    maxlength: [200, 'Website URL cannot exceed 200 characters']
+  },
+  // Social counts (updated by middleware)
+  followersCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  followingCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  recommendationsCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  reviewsCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  likesReceivedCount: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  // Privacy settings
+  isPrivate: {
+    type: Boolean,
+    default: false
+  },
+  showEmail: {
+    type: Boolean,
+    default: false
+  },
+  showReadingList: {
+    type: Boolean,
+    default: true
+  },
+  // Notification preferences
+  emailNotifications: {
+    type: Boolean,
+    default: true
+  },
+  followNotifications: {
+    type: Boolean,
+    default: true
+  },
+  likeNotifications: {
+    type: Boolean,
+    default: true
+  },
+  commentNotifications: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
