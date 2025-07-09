@@ -83,7 +83,10 @@ const Home = () => {
 
       <style jsx>{`
         .home-page {
+          width: 100%;
           min-height: 100vh;
+          margin: 0;
+          padding: 0;
         }
 
         .hero-section {
@@ -93,6 +96,8 @@ const Home = () => {
           text-align: center;
           position: relative;
           overflow: hidden;
+          width: 100%;
+          margin: 0;
         }
 
         .hero-section::before {
@@ -203,6 +208,8 @@ const Home = () => {
         .features-section {
           padding: 5rem 2rem;
           background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+          width: 100%;
+          margin: 0;
         }
 
         .features-container {
@@ -287,6 +294,8 @@ const Home = () => {
           text-align: center;
           position: relative;
           overflow: hidden;
+          width: 100%;
+          margin: 0;
         }
 
         .cta-section::before {
