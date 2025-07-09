@@ -225,6 +225,161 @@ app.post('/api/books/:googleBooksId/reviews', (req, res) => {
   });
 });
 
+// User profile endpoints
+app.get('/api/users/profile/:userId', (req, res) => {
+  console.log('Get user profile request:', req.params.userId);
+  res.json({
+    success: true,
+    user: {
+      _id: req.params.userId,
+      name: 'Test User',
+      bio: 'Book lover and avid reader. Always looking for the next great story!',
+      profilePicture: 'https://via.placeholder.com/120x120?text=User',
+      location: 'New York, NY',
+      website: 'https://example.com',
+      followersCount: 42,
+      followingCount: 28,
+      recommendationsCount: 15,
+      reviewsCount: 8,
+      likesReceivedCount: 156,
+      createdAt: new Date('2023-01-15').toISOString(),
+      favoriteGenres: ['Fiction', 'Science Fiction', 'Mystery']
+    }
+  });
+});
+
+app.get('/api/users/:userId/stats', (req, res) => {
+  console.log('Get user stats request:', req.params.userId);
+  res.json({
+    success: true,
+    stats: {
+      recommendationsCount: 15,
+      totalRatings: 42,
+      averageRating: 4.2,
+      totalBooksRead: 38,
+      booksReadThisYear: 12,
+      likesReceived: 156,
+      commentsCount: 23
+    }
+  });
+});
+
+app.get('/api/users/:userId/recommendations', (req, res) => {
+  console.log('Get user recommendations request:', req.params.userId, req.query);
+  res.json({
+    success: true,
+    recommendations: [
+      {
+        _id: 'rec1',
+        title: 'The Midnight Library',
+        author: 'Matt Haig',
+        description: 'A beautiful story about life choices and possibilities.',
+        rating: 5,
+        coverUrl: 'https://via.placeholder.com/150x225?text=Book+Cover',
+        likeCount: 12,
+        commentCount: 5,
+        shareCount: 3,
+        createdAt: new Date().toISOString()
+      }
+    ],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 1,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
+app.get('/api/users/:userId/comments', (req, res) => {
+  console.log('Get user comments request:', req.params.userId, req.query);
+  res.json({
+    success: true,
+    comments: [
+      {
+        _id: 'comment1',
+        text: 'Great recommendation! I loved this book too.',
+        recommendationId: { title: 'The Midnight Library' },
+        createdAt: new Date().toISOString()
+      }
+    ],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 1,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
+// Social endpoints for test server
+app.post('/api/social/like', (req, res) => {
+  console.log('Toggle like request:', req.body);
+  res.json({
+    success: true,
+    liked: true,
+    likeCount: 13,
+    message: 'Item liked'
+  });
+});
+
+app.post('/api/social/follow', (req, res) => {
+  console.log('Toggle follow request:', req.body);
+  res.json({
+    success: true,
+    following: true,
+    followersCount: 43,
+    message: 'User followed'
+  });
+});
+
+app.get('/api/social/followers/:userId', (req, res) => {
+  console.log('Get followers request:', req.params.userId);
+  res.json({
+    success: true,
+    followers: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
+app.get('/api/social/following/:userId', (req, res) => {
+  console.log('Get following request:', req.params.userId);
+  res.json({
+    success: true,
+    following: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
+app.get('/api/social/user-likes', (req, res) => {
+  console.log('Get user likes request:', req.query);
+  res.json({
+    success: true,
+    likes: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      hasNext: false,
+      hasPrev: false
+    }
+  });
+});
+
 app.post('/api/auth/test', (req, res) => {
   res.json({
     message: 'Auth endpoint working',
